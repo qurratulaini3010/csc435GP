@@ -1,0 +1,33 @@
+import java.io.Serializable;
+import com.opencsv.bean.CsvBindByName;
+import java.time.LocalDate;
+
+public class Vehicle implements Serializable {
+  private static final long serialVersionUID = 1L;
+  @CsvBindByName private String model;
+  @CsvBindByName private String plateNumber;
+  @CsvBindByName private double pricePerDay;
+  @CsvBindByName private boolean available;
+  // constructors, getters/setters...
+}
+
+public class Customer implements Serializable {
+  private static final long serialVersionUID = 1L;
+  @CsvBindByName private String name;
+  @CsvBindByName private String id;
+  @CsvBindByName private String phone;
+  @CsvBindByName private String address;
+  // constructors, getters/setters...
+}
+
+public class Rental implements Serializable {
+  private static final long serialVersionUID = 1L;
+  @CsvBindByName private String customerId;
+  @CsvBindByName private String plateNumber;
+  @CsvBindByName private LocalDate rentalDate;
+  @CsvBindByName private LocalDate returnDate;
+  @CsvBindByName private double totalPrice;
+  @CsvBindByName private double penalty;
+  @CsvBindByName private double discount;
+  // constructors, getters/setters...
+}
