@@ -84,8 +84,8 @@ public class RentalManagerWithReports {
 
         @Override
         public String toString() {
-            return String.format("Customer: %s (%s), Phone: %s, Address: %s",
-                    name, customerId, phone, address);
+            return String.format("Customer: "+name+"\n Customer ID"+ customerId+"\n Phone: "+phone+"\n Address: "+ address);
+        
         }
     }
 
