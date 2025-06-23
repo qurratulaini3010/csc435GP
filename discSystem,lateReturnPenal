@@ -140,7 +140,6 @@ public String toString() {
            " Days: " + rentalDays +
            " Late Days: " + lateDays +
            "\nReturned: " + returned;
-}
 
         }
     }
