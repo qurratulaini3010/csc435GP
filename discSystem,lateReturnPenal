@@ -83,7 +83,7 @@ public class RentalManager {
 
         @Override
         public String toString() {
-            return String.format("%s (%s) - %s, %s", name, customerId, phone, address);
+            return String.format("name, customerId, phone, address);
         }
     }
 
@@ -125,8 +125,7 @@ public class RentalManager {
 
         @Override
         public String toString() {
-            return String.format("Customer: %s, Vehicle: %s, Days: %d, Late Days: %d, Returned: %s",
-                    customer, plateNumber, rentalDays, lateDays, returned ? "Yes" : "No");
+            return String.format("Customer:"+customer+"\n Vehicle: "+plateNumber+" Days: "+rentalDays+ "Late Days: "+lateDays+"\n Returned: "+returned);
         }
     }
 }
