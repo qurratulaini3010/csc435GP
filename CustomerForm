@@ -1,0 +1,66 @@
+import javax.swing.*;
+import java.awt.event.*;
+
+public class AddCustomerForm {
+    private MainSystem system;
+
+    public AddCustomerForm(MainSystem system) {
+        this.system = system;
+
+        JFrame frame = new JFrame("Add Customer");
+        frame.setSize(350, 300);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        JPanel panel = new JPanel(null);
+        frame.add(panel);
+
+        JLabel nameLabel = new JLabel("Name:");
+        nameLabel.setBounds(10, 20, 80, 25);
+        panel.add(nameLabel);
+
+        JTextField nameField = new JTextField();
+        nameField.setBounds(100, 20, 200, 25);
+        panel.add(nameField);
+
+        JLabel idLabel = new JLabel("ID:");
+        idLabel.setBounds(10, 60, 80, 25);
+        panel.add(idLabel);
+
+        JTextField idField = new JTextField();
+        idField.setBounds(100, 60, 200, 25);
+        panel.add(idField);
+
+        JLabel phoneLabel = new JLabel("Phone:");
+        phoneLabel.setBounds(10, 100, 80, 25);
+        panel.add(phoneLabel);
+
+        JTextField phoneField = new JTextField();
+        phoneField.setBounds(100, 100, 200, 25);
+        panel.add(phoneField);
+
+        JLabel addressLabel = new JLabel("Address:");
+        addressLabel.setBounds(10, 140, 80, 25);
+        panel.add(addressLabel);
+
+        JTextField addressField = new JTextField();
+        addressField.setBounds(100, 140, 200, 25);
+        panel.add(addressField);
+
+        JButton addButton = new JButton("Add Customer");
+        addButton.setBounds(100, 190, 150, 30);
+        panel.add(addButton);
+
+        addButton.addActionListener(e -> {
+            Customer c = new Customer(
+                nameField.getText(),
+                idField.getText(),
+                phoneField.getText(),
+                addressField.getText()
+            );
+            system.addCustomer(c);
+            JOptionPane.showMessageDialog(frame, "Customer added.");
+            frame.dispose();
+        });
+
+        frame.setVisible(true);
+    }
+}
