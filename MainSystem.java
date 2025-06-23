@@ -1,117 +1,53 @@
-import java.util.*;
-import java.io.*;
+import java.util.ArrayList;
 
-// --- VehicleManager.java ---
-public class VehicleManager {
-    private List<Vehicle> vehicles = new ArrayList<>();
-
-    public void addVehicle(Vehicle v) { vehicles.add(v); }
-
-    public boolean rentVehicle(String plateNumber) {
-        for (Vehicle v : vehicles) {
-            if (v.getPlateNumber().equalsIgnoreCase(plateNumber) && !v.isRented()) {
-                v.setRented(true);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public void displayVehicles() {
-        System.out.println("Vehicle List:");
-        vehicles.forEach(v -> System.out.println("- " + v));
-    }
-
-    // Load & save support
-    public void load(String filename) throws Exception {
-        vehicles = FileHandler.readObjects(filename);
-    }
-    public void save(String filename) throws Exception {
-        FileHandler.writeObjects(filename, vehicles);
-    }
-}
-
-// --- MainSystem.java ---
 public class MainSystem {
-    private VehicleManager vehicleManager;
-    private List<Customer> customers;
-    private List<Rental> rentals;
+    private ArrayList<String> vehicleList;
+    private ArrayList<Customer> customerList;
+    private ArrayList<Rental> rentalList;
 
     public MainSystem() {
-        this.vehicleManager = new VehicleManager();
-        this.customers = new ArrayList<>();
-        this.rentals = new ArrayList<>();
+        vehicleList = new ArrayList<String>();
+        customerList = new ArrayList<Customer>();
+        rentalList = new ArrayList<Rental>();
     }
 
-    public void loadAll() {
-        try { vehicleManager.load("data/vehicles.dat"); }
-        catch (Exception e) { System.err.println("Vehicles load: " + e.getMessage()); }
-
-        try { customers = FileHandler.readCsv("data/customers.csv", Customer.class); }
-        catch (Exception e) { System.err.println("Customers load: " + e.getMessage()); }
-
-        try { rentals = FileHandler.readCsv("data/rentals.csv", Rental.class); }
-        catch (Exception e) { System.err.println("Rentals load: " + e.getMessage()); }
+    // Add vehicle
+    public void addVehicle(String vehicle) {
+        vehicleList.add(vehicle);
     }
 
-    public void saveAll() {
-        try { vehicleManager.save("data/vehicles.dat"); }
-        catch (Exception e) { System.err.println("Vehicles save: " + e.getMessage()); }
-
-        try { FileHandler.writeCsv("data/customers.csv", customers, Customer.class); }
-        catch (Exception e) { System.err.println("Customers save: " + e.getMessage()); }
-
-        try { FileHandler.writeCsv("data/rentals.csv", rentals, Rental.class); }
-        catch (Exception e) { System.err.println("Rentals save: " + e.getMessage()); }
+    // Add customer
+    public void addCustomer(Customer customer) {
+        customerList.add(customer);
     }
 
-    public void addVehicle(Vehicle v) { vehicleManager.addVehicle(v); }
-    public void addCustomer(Customer c) { customers.add(c); }
-    public void addRental(Rental r) { rentals.add(r); }
+    // Add rental
+    public void addRental(Rental rental) {
+        rentalList.add(rental);
+    }
 
-    public boolean rentVehicle(String plate, Customer c, Rental r) {
-        if (vehicleManager.rentVehicle(plate)) {
-            addCustomer(c);
-            addRental(r);
-            return true;
+    // Display all vehicles
+    public void displayVehicles() {
+        System.out.println("Vehicle List:");
+        for (String v : vehicleList) {
+            System.out.println("- " + v);
         }
-        return false;
     }
 
-    public void displayAll() {
-        vehicleManager.displayVehicles();
-        displayCustomers();
-        displayRentals();
+    // Display all customers
+    public void displayCustomers() {
+        System.out.println("Customer List:");
+        for (Customer c : customerList) {
+            System.out.println(c);
+        }
     }
 
-    private void displayCustomers() {
-        System.out.println("\nCustomer List:");
-        customers.forEach(c -> System.out.println("- " + c));
-    }
-
-    private void displayRentals() {
-        System.out.println("\nRental List:");
-        rentals.forEach(r -> System.out.println("- " + r));
-    }
-
-    // Main
-    public static void main(String[] args) {
-        MainSystem sys = new MainSystem();
-        sys.loadAll();
-
-        // Sample data
-        Vehicle v = new Car("ABC123", "Toyota Corolla", false);
-        sys.addVehicle(v);
-        Customer cust = new Customer("Jane Doe", "jane@example.com");
-        Rental rent = new Rental(cust, v, new Date(), null, 50.0);
-        boolean ok = sys.rentVehicle("ABC123", cust, rent);
-        System.out.println(ok ? "Rental successful!" : "Rental failed.");
-
-        sys.displayAll();
-        sys.saveAll();
+    // Display all rentals
+    public void displayRentals() {
+        System.out.println("Rental List:");
+        for (Rental r : rentalList) {
+            System.out.println(r);
+        }
     }
 }
 
-// --- Assumed support classes ---
-// (Vehicle base class, subclass Car, Customer, Rental)
-// and FileHandler with read/write methods.

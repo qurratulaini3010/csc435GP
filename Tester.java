@@ -2,9 +2,9 @@ public class Tester {
     public static void main(String[] args) {
         MainSystem system = new MainSystem();
 
-        // Add vehicles
-        system.addVehicle(new Van("Hyundai Starex", "VAN001", 300.00, 250));
-        system.addVehicle(new Car("Proton Saga", "CAR001", 150.00, 5, "Normal"));
+        // Add sample vehicles
+        system.addVehicle("Proton Saga 2021");
+        system.addVehicle("Perodua Myvi 2022");
 
         // Add customers
         Customer c1 = new Customer("Ali Ahmad", "C001", "0123456789", "Shah Alam");
@@ -12,12 +12,17 @@ public class Tester {
         system.addCustomer(c1);
         system.addCustomer(c2);
 
-        // Create and process rental
-        Rental r1 = new Rental("2025-06-01", "2025-06-05", 1500.00, 0.00, 100.00);
-        boolean rented = system.rentVehicle("VAN001", c1, r1);
-        System.out.println("Rental " + (rented ? "successful" : "failed"));
+        // Add rentals
+        Rental r1 = new Rental("2025-06-01", "2025-06-05", 500.00, 0.00, 50.00);
+        Rental r2 = new Rental("2025-06-02", "2025-06-04", 400.00, 30.00, 0.00);
+        system.addRental(r1);
+        system.addRental(r2);
 
         // Display all
-        system.displayAll();
+        system.displayVehicles();
+        System.out.println();
+        system.displayCustomers();
+        System.out.println();
+        system.displayRentals();
     }
 }
