@@ -3,49 +3,60 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RentalManager {
+public class RentalManagerWithReports {
     private static final double LATE_PENALTY_PER_DAY = 20.0;
     private Map<String, Customer> customers;
     private List<RentalRecord> rentalRecords;
 
-    public RentalManager() {
+    public RentalManagerWithReports() {
         customers = new HashMap<>();
         rentalRecords = new ArrayList<>();
     }
 
-    // Add customer
+    // Add a customer
     public void addCustomer(String name, String customerId, String phone, String address) {
         customers.put(customerId, new Customer(name, customerId, phone, address));
     }
 
-    // Rent vehicle
-    public void rentVehicle(String customerId, String plateNumber, int rentalDays) {
+    // Rent a vehicle
+    public void rentVehicle(String customerId, String plateNumber, double pricePerDay, int rentalDays) {
         Customer customer = customers.get(customerId);
         if (customer != null) {
-            RentalRecord record = new RentalRecord(customer, plateNumber, rentalDays);
+            double totalCost = calculateTotalWithDiscount(pricePerDay, rentalDays);
+            RentalRecord record = new RentalRecord(customer, plateNumber, rentalDays, totalCost);
             rentalRecords.add(record);
-            System.out.println("Vehicle rented successfully for " + rentalDays + " day(s).");
+            System.out.printf("Vehicle rented successfully for %d days. Total cost: RM%.2f%n", rentalDays, totalCost);
         } else {
             System.out.println("Customer not found!");
         }
     }
 
-    // Return vehicle
+    // Return a vehicle
     public void returnVehicle(String plateNumber, int daysLate) {
         for (RentalRecord record : rentalRecords) {
             if (record.getPlateNumber().equals(plateNumber) && !record.isReturned()) {
                 record.setReturned(true);
                 record.setLateDays(daysLate);
-                double penalty = calculatePenalty(record);
-                System.out.printf("Vehicle returned with a penalty of RM%.2f.%n", penalty);
+                double penalty = calculateLatePenalty(record);
+                record.setTotalCost(record.getTotalCost() + penalty);
+                System.out.printf("Vehicle returned. Penalty for %d late days: RM%.2f%n", daysLate, penalty);
                 return;
             }
         }
         System.out.println("Rental record not found!");
     }
 
-    // Calculate penalty
-    private double calculatePenalty(RentalRecord record) {
+    // Calculate total with discount
+    public double calculateTotalWithDiscount(double pricePerDay, int rentalDays) {
+        double discountRate = 0;
+        if (rentalDays > 7) {
+            discountRate = 0.10; // 10% discount for rentals > 7 days
+        }
+        return pricePerDay * rentalDays * (1 - discountRate);
+    }
+
+    // Calculate late return penalty
+    public double calculateLatePenalty(RentalRecord record) {
         return record.getLateDays() * LATE_PENALTY_PER_DAY;
     }
 
@@ -57,17 +68,7 @@ public class RentalManager {
         }
     }
 
-    // Discount system
-    public double calculateTotalWithDiscount(double basePrice, int rentalDays) {
-        double total = basePrice * rentalDays;
-        double discount = 0;
-        if (rentalDays > 7) {
-            discount = 0.10; // 10% discount for rentals longer than 7 days
-        }
-        return total * (1 - discount);
-    }
-
-    // Customer class
+    // Inner classes for Customer and RentalRecord
     class Customer {
         private String name;
         private String customerId;
@@ -83,24 +84,26 @@ public class RentalManager {
 
         @Override
         public String toString() {
-            return String.format("name, customerId, phone, address);
+            return String.format("Customer: %s (%s), Phone: %s, Address: %s",
+                    name, customerId, phone, address);
         }
     }
 
-    // Rental record class
     class RentalRecord {
         private Customer customer;
         private String plateNumber;
         private int rentalDays;
-        private boolean returned;
         private int lateDays;
+        private boolean returned;
+        private double totalCost;
 
-        public RentalRecord(Customer customer, String plateNumber, int rentalDays) {
+        public RentalRecord(Customer customer, String plateNumber, int rentalDays, double totalCost) {
             this.customer = customer;
             this.plateNumber = plateNumber;
             this.rentalDays = rentalDays;
-            this.returned = false;
             this.lateDays = 0;
+            this.returned = false;
+            this.totalCost = totalCost;
         }
 
         public String getPlateNumber() {
@@ -123,9 +126,25 @@ public class RentalManager {
             this.lateDays = lateDays;
         }
 
-        @Override
-        public String toString() {
-            return String.format("Customer:"+customer+"\n Vehicle: "+plateNumber+" Days: "+rentalDays+ "Late Days: "+lateDays+"\n Returned: "+returned);
+        public double getTotalCost() {
+            return totalCost;
+        }
+
+        public void setTotalCost(double totalCost) {
+            this.totalCost = totalCost;
+        }
+       @Override
+public String toString() {
+    return "Customer:" + customer +
+           "\nVehicle: " + plateNumber +
+           " Days: " + rentalDays +
+           " Late Days: " + lateDays +
+           "\nReturned: " + returned;
+}
+
         }
     }
 }
+ 
+
+      
