@@ -1,0 +1,132 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class RentalManager {
+    private static final double LATE_PENALTY_PER_DAY = 20.0;
+    private Map<String, Customer> customers;
+    private List<RentalRecord> rentalRecords;
+
+    public RentalManager() {
+        customers = new HashMap<>();
+        rentalRecords = new ArrayList<>();
+    }
+
+    // Add customer
+    public void addCustomer(String name, String customerId, String phone, String address) {
+        customers.put(customerId, new Customer(name, customerId, phone, address));
+    }
+
+    // Rent vehicle
+    public void rentVehicle(String customerId, String plateNumber, int rentalDays) {
+        Customer customer = customers.get(customerId);
+        if (customer != null) {
+            RentalRecord record = new RentalRecord(customer, plateNumber, rentalDays);
+            rentalRecords.add(record);
+            System.out.println("Vehicle rented successfully for " + rentalDays + " day(s).");
+        } else {
+            System.out.println("Customer not found!");
+        }
+    }
+
+    // Return vehicle
+    public void returnVehicle(String plateNumber, int daysLate) {
+        for (RentalRecord record : rentalRecords) {
+            if (record.getPlateNumber().equals(plateNumber) && !record.isReturned()) {
+                record.setReturned(true);
+                record.setLateDays(daysLate);
+                double penalty = calculatePenalty(record);
+                System.out.printf("Vehicle returned with a penalty of RM%.2f.%n", penalty);
+                return;
+            }
+        }
+        System.out.println("Rental record not found!");
+    }
+
+    // Calculate penalty
+    private double calculatePenalty(RentalRecord record) {
+        return record.getLateDays() * LATE_PENALTY_PER_DAY;
+    }
+
+    // Generate report
+    public void generateReport() {
+        System.out.println("\nRental Report:");
+        for (RentalRecord record : rentalRecords) {
+            System.out.println(record);
+        }
+    }
+
+    // Discount system
+    public double calculateTotalWithDiscount(double basePrice, int rentalDays) {
+        double total = basePrice * rentalDays;
+        double discount = 0;
+        if (rentalDays > 7) {
+            discount = 0.10; // 10% discount for rentals longer than 7 days
+        }
+        return total * (1 - discount);
+    }
+
+    // Customer class
+    class Customer {
+        private String name;
+        private String customerId;
+        private String phone;
+        private String address;
+
+        public Customer(String name, String customerId, String phone, String address) {
+            this.name = name;
+            this.customerId = customerId;
+            this.phone = phone;
+            this.address = address;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("%s (%s) - %s, %s", name, customerId, phone, address);
+        }
+    }
+
+    // Rental record class
+    class RentalRecord {
+        private Customer customer;
+        private String plateNumber;
+        private int rentalDays;
+        private boolean returned;
+        private int lateDays;
+
+        public RentalRecord(Customer customer, String plateNumber, int rentalDays) {
+            this.customer = customer;
+            this.plateNumber = plateNumber;
+            this.rentalDays = rentalDays;
+            this.returned = false;
+            this.lateDays = 0;
+        }
+
+        public String getPlateNumber() {
+            return plateNumber;
+        }
+
+        public boolean isReturned() {
+            return returned;
+        }
+
+        public void setReturned(boolean returned) {
+            this.returned = returned;
+        }
+
+        public int getLateDays() {
+            return lateDays;
+        }
+
+        public void setLateDays(int lateDays) {
+            this.lateDays = lateDays;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("Customer: %s, Vehicle: %s, Days: %d, Late Days: %d, Returned: %s",
+                    customer, plateNumber, rentalDays, lateDays, returned ? "Yes" : "No");
+        }
+    }
+}
