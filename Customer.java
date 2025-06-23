@@ -31,5 +31,19 @@ public class Customer {
     public String toString() {
         return "Customer ID: " + id + ", Name: " + name + ", Phone: " + phone + ", Address: " + address;
     }
+    
+     public String toFileString() {
+        return String.join(",",
+            name,
+            id,
+            phone,
+            address
+        );
+    }
+
+    public static Customer fromFileString(String fileString) {
+        String[] parts = fileString.split(",");
+        return new Customer(parts[0], parts[1], parts[2], parts[3]);
+    }
 }
 

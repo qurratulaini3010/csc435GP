@@ -1,53 +1,94 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainSystem {
-    private ArrayList<String> vehicleList;
+    private VehicleManager vehicleManager;
     private ArrayList<Customer> customerList;
     private ArrayList<Rental> rentalList;
+    private static final String CUSTOMER_FILE = "customers.txt";
+    private static final String RENTAL_FILE = "rentals.txt";
 
     public MainSystem() {
-        vehicleList = new ArrayList<String>();
-        customerList = new ArrayList<Customer>();
-        rentalList = new ArrayList<Rental>();
+        this.vehicleManager = new VehicleManager();
+        this.customerList = new ArrayList<>();
+        this.rentalList = new ArrayList<>();
+        loadCustomers();
+        loadRentals();
     }
 
-    // Add vehicle
-    public void addVehicle(String vehicle) {
-        vehicleList.add(vehicle);
+    private void loadCustomers() {
+        List<String> customerData = FileHandler.loadFromFile(CUSTOMER_FILE);
+        for (String data : customerData) {
+            customerList.add(Customer.fromFileString(data));
+        }
     }
 
-    // Add customer
+    private void loadRentals() {
+        List<String> rentalData = FileHandler.loadFromFile(RENTAL_FILE);
+        for (String data : rentalData) {
+            rentalList.add(Rental.fromFileString(data));
+        }
+    }
+
+    public void saveAllData() {
+        vehicleManager.saveVehicles();
+        
+        List<String> customerData = new ArrayList<>();
+        for (Customer c : customerList) {
+            customerData.add(c.toFileString());
+        }
+        FileHandler.saveToFile(CUSTOMER_FILE, customerData);
+        
+        List<String> rentalData = new ArrayList<>();
+        for (Rental r : rentalList) {
+            rentalData.add(r.toFileString());
+        }
+        FileHandler.saveToFile(RENTAL_FILE, rentalData);
+    }
+
+    public void addVehicle(Vehicle vehicle) {
+        vehicleManager.addVehicle(vehicle);
+    }
+
     public void addCustomer(Customer customer) {
         customerList.add(customer);
     }
 
-    // Add rental
-    public void addRental(Rental rental) {
-        rentalList.add(rental);
-    }
-
-    // Display all vehicles
-    public void displayVehicles() {
-        System.out.println("Vehicle List:");
-        for (String v : vehicleList) {
-            System.out.println("- " + v);
+    public boolean addRental(Rental rental, String plateNumber, String customerId) {
+        Customer customer = findCustomerById(customerId);
+        if (customer == null) return false;
+        
+        if (vehicleManager.rentVehicle(plateNumber)) {
+            rentalList.add(rental);
+            return true;
         }
+        return false;
     }
 
-    // Display all customers
-    public void displayCustomers() {
-        System.out.println("Customer List:");
+    private Customer findCustomerById(String id) {
         for (Customer c : customerList) {
-            System.out.println(c);
+            if (c.getId().equals(id)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    public void displayVehicles() {
+        vehicleManager.displayVehicles();
+    }
+
+    public void displayCustomers() {
+        System.out.println("\nCustomer List:");
+        for (Customer c : customerList) {
+            System.out.println("- " + c);
         }
     }
 
-    // Display all rentals
     public void displayRentals() {
-        System.out.println("Rental List:");
+        System.out.println("\nRental List:");
         for (Rental r : rentalList) {
-            System.out.println(r);
+            System.out.println("- " + r);
         }
     }
 }
-

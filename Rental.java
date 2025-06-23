@@ -42,5 +42,25 @@ public class Rental {
                ", Total Price: RM" + totalPrice + ", Penalty: RM" + penalty +
                ", Discount: RM" + discount + ", Final Amount: RM" + calculateFinalAmount();
     }
+    public String toFileString() {
+        return String.join(",",
+            rentalDate,
+            returnDate,
+            String.valueOf(totalPrice),
+            String.valueOf(penalty),
+            String.valueOf(discount)
+        );
+    }
+
+    public static Rental fromFileString(String fileString) {
+        String[] parts = fileString.split(",");
+        return new Rental(
+            parts[0],
+            parts[1],
+            Double.parseDouble(parts[2]),
+            Double.parseDouble(parts[3]),
+            Double.parseDouble(parts[4])
+        );
+    }
 }
 

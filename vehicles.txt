@@ -1,0 +1,5 @@
+Van,Hyundai Starex,VAN001,250.0,true,200
+Car,Perodua Bezza,CAR001,150.0,true
+Car,moj,57656bh,67.0,false
+Van,Hyundai Starex,VAN001,250.0,true,200
+Car,Perodua Bezza,CAR001,150.0,true

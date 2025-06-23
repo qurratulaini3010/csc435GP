@@ -1,10 +1,28 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class VehicleManager {
     private ArrayList<Vehicle> vehicles;
-    
+    private static final String VEHICLE_FILE = "vehicles.txt";
+
     public VehicleManager() {
         this.vehicles = new ArrayList<>();
+        loadVehicles();
+    }
+
+    private void loadVehicles() {
+        List<String> vehicleData = FileHandler.loadFromFile(VEHICLE_FILE);
+        for (String data : vehicleData) {
+            vehicles.add(Vehicle.fromFileString(data));
+        }
+    }
+
+    public void saveVehicles() {
+        List<String> vehicleData = new ArrayList<>();
+        for (Vehicle v : vehicles) {
+            vehicleData.add(v.toFileString());
+        }
+        FileHandler.saveToFile(VEHICLE_FILE, vehicleData);
     }
     
     public void addVehicle(Vehicle vehicle) {
