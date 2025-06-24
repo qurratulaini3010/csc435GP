@@ -1,0 +1,94 @@
+import javax.swing.*;
+import java.awt.event.*;
+
+public class AddRentalForm {
+    private MainSystem system;
+
+    public AddRentalForm(MainSystem system) {
+        this.system = system;
+
+        JFrame frame = new JFrame("Create Rental");
+        frame.setSize(400, 400);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        JPanel panel = new JPanel(null);
+        frame.add(panel);
+
+        JLabel plateLabel = new JLabel("Vehicle Plate:");
+        plateLabel.setBounds(10, 20, 100, 25);
+        panel.add(plateLabel);
+
+        JTextField plateField = new JTextField();
+        plateField.setBounds(130, 20, 200, 25);
+        panel.add(plateField);
+
+        JLabel custLabel = new JLabel("Customer ID:");
+        custLabel.setBounds(10, 60, 100, 25);
+        panel.add(custLabel);
+
+        JTextField custField = new JTextField();
+        custField.setBounds(130, 60, 200, 25);
+        panel.add(custField);
+
+        JLabel rentDateLabel = new JLabel("Rental Date:");
+        rentDateLabel.setBounds(10, 100, 100, 25);
+        panel.add(rentDateLabel);
+
+        JTextField rentDateField = new JTextField("YYYY-MM-DD");
+        rentDateField.setBounds(130, 100, 200, 25);
+        panel.add(rentDateField);
+
+        JLabel returnDateLabel = new JLabel("Return Date:");
+        returnDateLabel.setBounds(10, 140, 100, 25);
+        panel.add(returnDateLabel);
+
+        JTextField returnDateField = new JTextField("YYYY-MM-DD");
+        returnDateField.setBounds(130, 140, 200, 25);
+        panel.add(returnDateField);
+
+        JLabel rateLabel = new JLabel("Daily Rate:");
+        rateLabel.setBounds(10, 180, 100, 25);
+        panel.add(rateLabel);
+
+        JTextField rateField = new JTextField();
+        rateField.setBounds(130, 180, 200, 25);
+        panel.add(rateField);
+
+        JLabel discountLabel = new JLabel("Discount:");
+        discountLabel.setBounds(10, 220, 100, 25);
+        panel.add(discountLabel);
+
+        JTextField discountField = new JTextField("0");
+        discountField.setBounds(130, 220, 200, 25);
+        panel.add(discountField);
+
+        JButton addButton = new JButton("Create Rental");
+        addButton.setBounds(130, 270, 150, 30);
+        panel.add(addButton);
+
+        addButton.addActionListener(e -> {
+            String plate = plateField.getText();
+            String custId = custField.getText();
+            String rentDate = rentDateField.getText();
+            String returnDate = returnDateField.getText();
+            double rate = Double.parseDouble(rateField.getText());
+            double discount = Double.parseDouble(discountField.getText());
+
+            double totalPrice = rate * 1; // basic calc
+
+            Rental rental = new Rental(rentDate, returnDate, totalPrice, 0, discount);
+            boolean success = system.addRental(rental, plate, custId);
+            
+            
+
+            if (success) {
+                JOptionPane.showMessageDialog(frame, "Rental created!");
+                JOptionPane.showMessageDialog(frame, "Rental created!");
+                frame.dispose();
+            } else {
+                JOptionPane.showMessageDialog(frame, "Failed to create rental.");
+            }
+        });
+
+        frame.setVisible(true);
+    }
+}
