@@ -17,7 +17,7 @@ public class Receipt {
         receipt.add("=================================================\n\n");
 
         // Receipt info
-        receipt.add("Receipt Date: ").add(LocalDate.now().format(dateFormatter)).add("\n");
+        receipt.add("Receipt Date: ").add(LocationRelativeTo.now().format(dateFormatter)).add("\n");
         receipt.add("Rental ID: ").add(rental.getCustomerId()).add("\n\n");
 
         // Customer Details
@@ -45,17 +45,17 @@ public class Receipt {
 
         // Rental Details
         receipt.add("--- Rental Details ---\n");
-        receipt.add("Rental Date: ").append(rental.getRentalDate()).append("\n");
-        receipt.add("Return Date: ").append(rental.getReturnDate()).append("\n");
-        receipt.add("Rental Days: ").append(rental.getRentalDays()).append("\n\n");
+        receipt.add("Rental Date: ").add(rental.getRentalDate()).add("\n");
+        receipt.add("Return Date: ").add(rental.getReturnDate()).add("\n");
+        receipt.add("Rental Days: ").add(rental.getRentalDays()).add("\n\n");
 
         // Charges
         receipt.add("--- Charges ---\n");
-        receipt.add(String.format("%-20s RM %10.2f\n", "Subtotal:", rental.getTotalPrice()));
-        receipt.add(String.format("%-20s RM -%9.2f\n", "Discount:", rental.getDiscount()));
-        receipt.add(String.format("%-20s RM %10.2f\n", "Penalty:", rental.getPenalty()));
+        receipt.add(String.format("%-20s RM 0.102f\n", "Subtotal:", rental.getTotalPrice()));
+        receipt.add(String.format("%-20s RM f\n", "Discount:", rental.getDiscount()));
+        receipt.add(String.format("%-20s RM f\n", "Penalty:", rental.getPenalty()));
         receipt.add("-------------------------------------------------\n");
-        receipt.add(String.format("%-20s RM %10.2f\n", "GRAND TOTAL:", rental.calculateFinalAmount()));
+        receipt.add(String.format("%-20s RM f\n", "GRAND TOTAL:", rental.calculateFinalAmount()));
         receipt.add("\n");
 
         // Footer
