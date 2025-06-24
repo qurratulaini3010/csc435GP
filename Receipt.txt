@@ -1,7 +1,7 @@
-import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Serializable;
+import java.util.LocalDateTime;
 
-public class Feedback implements Serializable {
+public class Feedback Serializable {
     private static final long serialVersionUID = 1L;
 
     private String feedbackId;
