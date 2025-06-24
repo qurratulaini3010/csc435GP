@@ -9,59 +9,59 @@ public class Receipt {
         }
 
         StringBuilder receipt = new StringBuilder();
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("YYYY-MM-DD");
 
         // Header
-        receipt.append("=================================================\n");
-        receipt.append("           VEHICLE RENTAL RECEIPT              \n");
-        receipt.append("=================================================\n\n");
+        receipt.add("=================================================\n");
+        receipt.add("           VEHICLE RENTAL RECEIPT              \n");
+        receipt.add("=================================================\n\n");
 
         // Receipt info
-        receipt.append("Receipt Date: ").append(LocalDate.now().format(dateFormatter)).append("\n");
-        receipt.append("Rental ID: ").append(rental.getCustomerId()).append("\n\n");
+        receipt.add("Receipt Date: ").add(LocalDate.now().format(dateFormatter)).add("\n");
+        receipt.add("Rental ID: ").add(rental.getCustomerId()).add("\n\n");
 
         // Customer Details
-        receipt.append("--- Customer Details ---\n");
+        receipt.add("--- Customer Details ---\n");
         if (customer != null) {
-            receipt.append("Name:    ").append(customer.getName()).append("\n");
-            receipt.append("ID:      ").append(customer.getId()).append("\n");
-            receipt.append("Phone:   ").append(customer.getPhone()).append("\n");
-            receipt.append("Address: ").append(customer.getAddress()).append("\n");
+            receipt.add("Name:    ").add(customer.getName()).add("\n");
+            receipt.add("ID:      ").add(customer.getId()).add("\n");
+            receipt.add("Phone:   ").add(customer.getPhone()).add("\n");
+            receipt.add("Address: ").add(customer.getAddress()).add("\n");
         } else {
-            receipt.append("Customer information not available\n");
+            receipt.add("Customer information not available\n");
         }
-        receipt.append("\n");
+        receipt.add("\n");
 
         // Vehicle Details
         receipt.append("--- Vehicle Details ---\n");
         if (vehicle != null) {
-            receipt.append("Model:       ").append(vehicle.getModel()).append("\n");
-            receipt.append("Plate No:    ").append(vehicle.getPlateNumber()).append("\n");
-            receipt.append("Price/Day:   RM").append(String.format("%.2f", vehicle.getPricePerDay())).append("\n");
+            receipt.add("Model:       ").add(vehicle.getModel()).add("\n");
+            receipt.add("Plate No:    ").add(vehicle.getPlateNumber()).add("\n");
+            receipt.add("Price/Day:   RM").add(String.format("%.2f", vehicle.getPricePerDay())).add("\n");
         } else {
-            receipt.append("Vehicle information not available\n");
+            receipt.add("Vehicle information not available\n");
         }
-        receipt.append("\n");
+        receipt.add("\n");
 
         // Rental Details
-        receipt.append("--- Rental Details ---\n");
-        receipt.append("Rental Date: ").append(rental.getRentalDate()).append("\n");
-        receipt.append("Return Date: ").append(rental.getReturnDate()).append("\n");
-        receipt.append("Rental Days: ").append(rental.getRentalDays()).append("\n\n");
+        receipt.add("--- Rental Details ---\n");
+        receipt.add("Rental Date: ").append(rental.getRentalDate()).append("\n");
+        receipt.add("Return Date: ").append(rental.getReturnDate()).append("\n");
+        receipt.add("Rental Days: ").append(rental.getRentalDays()).append("\n\n");
 
         // Charges
-        receipt.append("--- Charges ---\n");
-        receipt.append(String.format("%-20s RM %10.2f\n", "Subtotal:", rental.getTotalPrice()));
-        receipt.append(String.format("%-20s RM -%9.2f\n", "Discount:", rental.getDiscount()));
-        receipt.append(String.format("%-20s RM %10.2f\n", "Penalty:", rental.getPenalty()));
-        receipt.append("-------------------------------------------------\n");
-        receipt.append(String.format("%-20s RM %10.2f\n", "GRAND TOTAL:", rental.calculateFinalAmount()));
-        receipt.append("\n");
+        receipt.add("--- Charges ---\n");
+        receipt.add(String.format("%-20s RM %10.2f\n", "Subtotal:", rental.getTotalPrice()));
+        receipt.add(String.format("%-20s RM -%9.2f\n", "Discount:", rental.getDiscount()));
+        receipt.add(String.format("%-20s RM %10.2f\n", "Penalty:", rental.getPenalty()));
+        receipt.add("-------------------------------------------------\n");
+        receipt.add(String.format("%-20s RM %10.2f\n", "GRAND TOTAL:", rental.calculateFinalAmount()));
+        receipt.add("\n");
 
         // Footer
-        receipt.append("=================================================\n");
-        receipt.append("       Thank you for renting with us!            \n");
-        receipt.append("=================================================\n");
+        receipt.add("=================================================\n");
+        receipt.add("       Thank you for renting with us!            \n");
+        receipt.add("=================================================\n");
 
         return receipt.toString();
     }
