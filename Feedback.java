@@ -1,5 +1,5 @@
-import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Serializable;
+import java..util;
 
 public class Feedback implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -7,20 +7,19 @@ public class Feedback implements Serializable {
     private String feedbackId;
     private String customerId;
     private String comments;
-    private int rating; // e.g., 1 to 5 stars
+    private int rating; 
     private LocalDateTime feedbackDate;
-    private String vehiclePlateNumber; // Optional: link feedback to a specific rental/vehicle
-
+    private String vehiclePlateNumber;
+    
     public Feedback(String feedbackId, String customerId, String comments, int rating, String vehiclePlateNumber) {
         this.feedbackId = feedbackId;
         this.customerId = customerId;
         this.comments = comments;
         this.rating = rating;
-        this.feedbackDate = LocalDateTime.now(); // Timestamp when feedback is given
+        this.feedbackDate = LocalDateTime.now(); 
         this.vehiclePlateNumber = vehiclePlateNumber;
     }
 
-    // Getters
     public String getFeedbackId() {
         return feedbackId;
     }
@@ -45,7 +44,6 @@ public class Feedback implements Serializable {
         return vehiclePlateNumber;
     }
 
-    // Setters (if feedback can be modified)
     public void setComments(String comments) {
         this.comments = comments;
     }
@@ -58,7 +56,7 @@ public class Feedback implements Serializable {
     public String toString() {
         return "Feedback [ID=" + feedbackId + ", Customer ID=" + customerId +
                ", Vehicle=" + (vehiclePlateNumber != null ? vehiclePlateNumber : "N/A") +
-               ", Rating=" + rating + ", Date=" + feedbackDate.format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) +
+               ", Rating=" + rating + ", Date=" + feedbackDate.format(java.time.format.DateTimeFormatter.ofPattern("YYYY-MM-DD")) +
                ", Comments='" + comments + "']";
     }
 }
