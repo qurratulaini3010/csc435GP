@@ -1,13 +1,13 @@
-import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Serializable;
+import java.util.LocalDateTime;
 
-public class Feedback implements Serializable {
+public class Feedback Serializable {
     private static final long serialVersionUID = 1L;
 
     private String feedbackId;
     private String customerId;
     private String comments;
-    private int rating; // e.g., 1 to 5 stars
+    private int rating; 
     private LocalDateTime feedbackDate;
     private String vehiclePlateNumber; // Optional: link feedback to a specific rental/vehicle
 
@@ -20,7 +20,6 @@ public class Feedback implements Serializable {
         this.vehiclePlateNumber = vehiclePlateNumber;
     }
 
-    // Getters
     public String getFeedbackId() {
         return feedbackId;
     }
@@ -45,7 +44,6 @@ public class Feedback implements Serializable {
         return vehiclePlateNumber;
     }
 
-    // Setters (if feedback can be modified)
     public void setComments(String comments) {
         this.comments = comments;
     }
