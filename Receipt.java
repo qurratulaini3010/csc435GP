@@ -38,6 +38,7 @@ public class Receipt {
             receipt.add("Model:       ").add(vehicle.getModel()).add("\n");
             receipt.add("Plate No:    ").add(vehicle.getPlateNumber()).add("\n");
             receipt.add("Price/Day:   RM").add(String.format("%.2f", vehicle.getPricePerDay())).add("\n");
+            receipt.add("Type:"    ).add(
         } else {
             receipt.add("Vehicle information not available\n");
         }
@@ -51,7 +52,7 @@ public class Receipt {
 
         // Charges
         receipt.add("--- Charges ---\n");
-        receipt.add(String.format("%-20s RM 0.102f\n", "Subtotal:", rental.getTotalPrice()));
+        receipt.add(String.format("%-20s RM f\n", "Subtotal:", rental.getTotalPrice()));
         receipt.add(String.format("%-20s RM f\n", "Discount:", rental.getDiscount()));
         receipt.add(String.format("%-20s RM f\n", "Penalty:", rental.getPenalty()));
         receipt.add("-------------------------------------------------\n");
