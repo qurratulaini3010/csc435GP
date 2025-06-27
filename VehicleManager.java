@@ -9,6 +9,9 @@ public class VehicleManager {
         this.vehicles = new ArrayList<>();
         loadVehicles();
     }
+    public ArrayList<Vehicle> getVehicles() {
+        return new ArrayList<>(vehicles); 
+    }
 
     private void loadVehicles() {
         List<String> vehicleData = FileHandler.loadFromFile(VEHICLE_FILE);
@@ -65,4 +68,12 @@ public class VehicleManager {
             System.out.println("- " + v);
         }
     }
+    public Vehicle findVehicleByPlate(String plateNumber) {
+    for (Vehicle vehicle : vehicles) {
+        if (vehicle.getPlateNumber().equalsIgnoreCase(plateNumber)) {
+            return vehicle;
+        }
+    }
+    return null; // Return null if vehicle not found
+}
 }

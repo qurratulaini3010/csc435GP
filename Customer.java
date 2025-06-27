@@ -47,14 +47,18 @@ public class Customer {
         return new Customer(parts[0], parts[1], parts[2], parts[3]);
     }
     
-    public static Customer findById(List<Customer> customers, String id) {
-    for (Customer customer : customers) {
-        if (customer.getId().equals(id)) {
-            return customer;
+     public static Customer findById(List<Customer> customers, String id) {
+        if (id == null || customers == null) {
+            return null;
         }
+        for (Customer customer : customers) {
+            if (id.equals(customer.getId())) {
+                return customer;
+            }
+        }
+        return null;
     }
-    return null;
-}
+
     
 }
 

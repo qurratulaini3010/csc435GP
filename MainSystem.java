@@ -5,6 +5,8 @@ public class MainSystem {
     private VehicleManager vehicleManager;
     private ArrayList<Customer> customerList;
     private ArrayList<Rental> rentalList;
+    private ArrayList<Feedback> feedbackList;
+    private static final String FEEDBACK_FILE = "feedback.txt";
     private static final String CUSTOMER_FILE = "customers.txt";
     private static final String RENTAL_FILE = "rentals.txt";
 
@@ -12,8 +14,36 @@ public class MainSystem {
         this.vehicleManager = new VehicleManager();
         this.customerList = new ArrayList<>();
         this.rentalList = new ArrayList<>();
+        this.feedbackList = new ArrayList<>();
+        loadFeedback();
         loadCustomers();
         loadRentals();
+    }
+    
+    private void loadFeedback() {
+        List<String> feedbackData = FileHandler.loadFromFile(FEEDBACK_FILE);
+        for (String data : feedbackData) {
+            if (!data.trim().isEmpty()) {
+                feedbackList.add(Feedback.fromFileString(data));
+            }
+        }
+    }
+
+    public void addFeedback(Feedback feedback) {
+        feedbackList.add(feedback);
+        saveFeedback();
+    }
+
+    private void saveFeedback() {
+        List<String> feedbackData = new ArrayList<>();
+        for (Feedback f : feedbackList) {
+            feedbackData.add(f.toFileString());
+        }
+        FileHandler.saveToFile(FEEDBACK_FILE, feedbackData);
+    }
+
+    public List<Feedback> getFeedbackList() {
+        return new ArrayList<>(feedbackList);
     }
 
     private void loadCustomers() {
@@ -21,6 +51,12 @@ public class MainSystem {
         for (String data : customerData) {
             customerList.add(Customer.fromFileString(data));
         }
+    }
+     public VehicleManager getVehicleManager() {
+        return this.vehicleManager;
+    }
+    public ArrayList<Vehicle> getAllVehicles() {
+        return vehicleManager.getVehicles();
     }
 
     private void loadRentals() {
@@ -32,19 +68,28 @@ public class MainSystem {
 
     public void saveAllData() {
         vehicleManager.saveVehicles();
-        
-        List<String> customerData = new ArrayList<>();
-        for (Customer c : customerList) {
-            customerData.add(c.toFileString());
-        }
-        FileHandler.saveToFile(CUSTOMER_FILE, customerData);
-        
-        List<String> rentalData = new ArrayList<>();
-        for (Rental r : rentalList) {
-            rentalData.add(r.toFileString());
-        }
-        FileHandler.saveToFile(RENTAL_FILE, rentalData);
+    
+    // Save customers
+    List<String> customerData = new ArrayList<>();
+    for (Customer c : customerList) {
+        customerData.add(c.toFileString());
     }
+    FileHandler.saveToFile(CUSTOMER_FILE, customerData);
+    
+    // Save rentals
+    List<String> rentalData = new ArrayList<>();
+    for (Rental r : rentalList) {
+        rentalData.add(r.toFileString());
+    }
+    FileHandler.saveToFile(RENTAL_FILE, rentalData);
+    
+    // Save feedback
+    saveFeedback();
+    }
+    public List<Rental> getRentalList() {
+    return new ArrayList<>(rentalList);
+}
+
 
     public void addVehicle(Vehicle vehicle) {
         vehicleManager.addVehicle(vehicle);
@@ -66,29 +111,11 @@ public class MainSystem {
     }
 
     private Customer findCustomerById(String id) {
-        for (Customer c : customerList) {
-            if (c.getId().equals(id)) {
-                return c;
-            }
-        }
-        return null;
+        return Customer.findById(customerList, id);
     }
+    public List<Customer> getCustomerList() {
+    return new ArrayList<>(this.customerList); // Return a copy for encapsulation
+}
 
-    public void displayVehicles() {
-        vehicleManager.displayVehicles();
-    }
-
-    public void displayCustomers() {
-        System.out.println("\nCustomer List:");
-        for (Customer c : customerList) {
-            System.out.println("- " + c);
-        }
-    }
-
-    public void displayRentals() {
-        System.out.println("\nRental List:");
-        for (Rental r : rentalList) {
-            System.out.println("- " + r);
-        }
-    }
+    
 }
