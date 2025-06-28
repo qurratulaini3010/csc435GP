@@ -41,12 +41,12 @@ public class AddVehicleForm {
         typeLabel.setBounds(10, 140, 100, 25);
         panel.add(typeLabel);
 
-        String[] types = {"Car", "Van"};
+        String[] types = {"Car", "Van", "Bus", "lorry"};
         JComboBox<String> typeBox = new JComboBox<>(types);
         typeBox.setBounds(120, 140, 200, 25);
         panel.add(typeBox);
 
-        JLabel capacityLabel = new JLabel("Capacity (Van):");
+        JLabel capacityLabel = new JLabel("Capacity :");
         capacityLabel.setBounds(10, 180, 120, 25);
         panel.add(capacityLabel);
 
@@ -58,6 +58,7 @@ public class AddVehicleForm {
         typeBox.addActionListener(e -> {
             String selected = (String) typeBox.getSelectedItem();
             capacityField.setEnabled(selected.equals("Van"));
+            capacityField.setEnabled(selected.equals("Bus"));
         });
 
         JButton addButton = new JButton("Add Vehicle");
@@ -73,11 +74,15 @@ public class AddVehicleForm {
             Vehicle v;
             if (type.equals("Car")) {
                 v = new Car(model, plate, price, true);
-            } else {
+            } else if(type.equals("Van")){
                 int capacity = Integer.parseInt(capacityField.getText());
                 v = new Van(model, plate, price, true, capacity);
             }
-
+            else if(type.equals("Bus")){
+                v = new Bus(model, plate, price, true);
+            }else{
+                v = new Lorry(model, plate, price, true);
+            }
             system.addVehicle(v);
             JOptionPane.showMessageDialog(frame, "Vehicle added.");
             frame.dispose();
