@@ -10,6 +10,15 @@ public class MainGUI {
     private MainSystem system;
     private CardLayout cardLayout;
     private JPanel cardPanel;
+    
+    // Color scheme
+    private final Color BACKGROUND_COLOR = new Color(255, 239, 213); // Cream
+    private final Color TITLE_COLOR = new Color(205, 92, 92);       // Rosy brown
+    private final Color BUTTON_BG1 = new Color(255, 218, 185);     // Peach puff
+    private final Color BUTTON_BG2 = new Color(255, 204, 153);      // Deep peach
+    private final Color BUTTON_TEXT1 = new Color(160, 82, 45);      // Sienna
+    private final Color BUTTON_TEXT2 = new Color(139, 69, 19);      // Saddle brown
+
 
     // Panels
     private JPanel homePanel;
@@ -31,6 +40,7 @@ public class MainGUI {
         // Card layout for switching between panels
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
+        cardPanel.setBackground(BACKGROUND_COLOR);
 
         // Create panels
         createHomePanel();
@@ -47,107 +57,119 @@ public class MainGUI {
     }
 
     private void createHomePanel() {
-        homePanel = new JPanel(new BorderLayout());
-        homePanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        homePanel.setBackground(new Color(240, 240, 240));
+    homePanel = new JPanel(new BorderLayout());
+    homePanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+    homePanel.setBackground(BACKGROUND_COLOR);
 
-        // Main content panel (centered)
-        JPanel centerPanel = new JPanel();
-        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
-        centerPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        centerPanel.setBackground(new Color(240, 240, 240));
+    // Main content panel (centered)
+    JPanel centerPanel = new JPanel();
+    centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+    centerPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+    centerPanel.setBackground(BACKGROUND_COLOR);
 
-        // Title with logo
-        JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        titlePanel.setBackground(new Color(240, 240, 240));
-        
-        ImageIcon originalLogo = new ImageIcon("car rental.jpg");
-        Image scaledLogo = originalLogo.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
-        JLabel logoLabel = new JLabel(new ImageIcon(scaledLogo));
-        
-        JLabel titleLabel = new JLabel("Vehicle Rental System");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 28));
-        titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
-        
-        titlePanel.add(logoLabel);
-        titlePanel.add(titleLabel);
-        centerPanel.add(titlePanel);
+    // Title with logo
+    JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+    titlePanel.setBackground(BACKGROUND_COLOR);
+    
+    ImageIcon originalLogo = new ImageIcon("car rental.jpg");
+    Image scaledLogo = originalLogo.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
+    JLabel logoLabel = new JLabel(new ImageIcon(scaledLogo));
+    
+    JLabel titleLabel = new JLabel("Vehicle Rental System");
+    titleLabel.setFont(new Font("Arial", Font.BOLD, 28));
+    titleLabel.setForeground(TITLE_COLOR);
+    titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
+    
+    titlePanel.add(logoLabel);
+    titlePanel.add(titleLabel);
+    centerPanel.add(titlePanel);
 
-        // System Description
-        JTextArea description = new JTextArea(
-            "Welcome to our premium vehicle rental service!\n\n" +
-            "We offer a wide range of vehicles for all your transportation needs.\n" +
-            "Our system provides seamless rental management for both customers and administrators."
-        );
-        styleTextArea(description);
-        centerPanel.add(Box.createVerticalStrut(20));
-        centerPanel.add(description);
+    // System Description - Now properly centered
+    centerPanel.add(Box.createVerticalStrut(20));
+    JPanel descPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+    descPanel.setBackground(BACKGROUND_COLOR);
+    
+    JTextArea description = new JTextArea(
+        "Welcome to our premium vehicle rental service!\n\n" +
+        "We offer a wide range of vehicles for all your transportation needs.\n" +
+        "Our system provides seamless rental management for both customers and administrators."
+    );
+    description.setEditable(false);
+    description.setLineWrap(true);
+    description.setWrapStyleWord(true);
+    description.setBackground(BACKGROUND_COLOR);
+    description.setFont(new Font("Arial", Font.PLAIN, 16));
+    description.setForeground(BUTTON_TEXT1); // Added theme color
+    description.setAlignmentX(Component.CENTER_ALIGNMENT);
+    description.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 50));
+    
+    centerPanel.add(Box.createVerticalStrut(20));
+    centerPanel.add(description);
 
-        // Vehicle Showcase
-        centerPanel.add(Box.createVerticalStrut(30));
-        JLabel vehiclesTitle = new JLabel("Our Fleet", JLabel.CENTER);
-        vehiclesTitle.setFont(new Font("Arial", Font.BOLD, 22));
-        vehiclesTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-        centerPanel.add(vehiclesTitle);
+    // Vehicle Showcase - Kept as is but with theme improvements
+    centerPanel.add(Box.createVerticalStrut(30));
+    JLabel vehiclesTitle = new JLabel("Our Services", JLabel.CENTER);
+    vehiclesTitle.setFont(new Font("Arial", Font.BOLD, 22));
+    vehiclesTitle.setForeground(TITLE_COLOR);
+    vehiclesTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+    centerPanel.add(vehiclesTitle);
 
-        JPanel vehiclesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 10));
-        vehiclesPanel.setBackground(new Color(240, 240, 240));
-        
-        // Add vehicle cards
-        addVehicleCard(vehiclesPanel, "car.jpg", "Economy Car", "RM150/day");
-        addVehicleCard(vehiclesPanel, "van.jpg", "Family Van", "RM250/day");
-        addVehicleCard(vehiclesPanel, "bus.jpg", "Tourist Bus", "RM350/day");
-        addVehicleCard(vehiclesPanel, "lorry.jpg", "New Lorry", "RM450/day");
-        
-        centerPanel.add(vehiclesPanel);
+    JPanel vehiclesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 10));
+    vehiclesPanel.setBackground(BACKGROUND_COLOR);
+    
+    // Add vehicle cards with theme-consistent styling
+    addVehicleCard(vehiclesPanel, "car.jpg", "Economy Car", "RM150/day");
+    addVehicleCard(vehiclesPanel, "van.jpg", "Family Van", "RM250/day");
+    addVehicleCard(vehiclesPanel, "bus.jpg", "Tourist Bus", "RM350/day");
+    addVehicleCard(vehiclesPanel, "lorry.jpg", "New Lorry", "RM450/day");
+    
+    centerPanel.add(vehiclesPanel);
 
-        // Button Panel
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
-        buttonPanel.setBackground(new Color(240, 240, 240));
-        
-        JButton adminButton = new JButton("Admin Login");
-        styleButton(adminButton);
-        adminButton.addActionListener(e -> cardLayout.show(cardPanel, "Login"));
-        
-        JButton userButton = new JButton("User Login");
-        styleButton(userButton);
-        userButton.addActionListener(e -> {
-            String customerId = JOptionPane.showInputDialog(mainFrame, "Enter your Customer ID:");
-            if (customerId != null && !customerId.trim().isEmpty()) {
-                Customer customer = Customer.findById(system.getCustomerList(), customerId);
-                if (customer != null) {
-                    new UserGUI(system, customerId);
-                    mainFrame.dispose();
-                } else {
-                    JOptionPane.showMessageDialog(mainFrame, 
-                        "Customer ID not found", 
-                        "Login Error", 
-                        JOptionPane.ERROR_MESSAGE);
-                }
+    // Button Panel with theme colors
+    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
+    buttonPanel.setBackground(BACKGROUND_COLOR);
+    
+    JButton adminButton = createStyledButton("Admin Login", BUTTON_BG1, BUTTON_TEXT1);
+    adminButton.addActionListener(e -> cardLayout.show(cardPanel, "Login"));
+    
+    JButton userButton = createStyledButton("User Login", BUTTON_BG2, BUTTON_TEXT2);
+    userButton.addActionListener(e -> {
+        String customerId = JOptionPane.showInputDialog(mainFrame, "Enter your Customer ID:");
+        if (customerId != null && !customerId.trim().isEmpty()) {
+            Customer customer = Customer.findById(system.getCustomerList(), customerId);
+            if (customer != null) {
+                new UserGUI(system, customerId);
+                mainFrame.dispose();
+            } else {
+                JOptionPane.showMessageDialog(mainFrame, 
+                    "Customer ID not found", 
+                    "Login Error", 
+                    JOptionPane.ERROR_MESSAGE);
             }
-        });
-        
-        JButton exitButton = new JButton("Exit");
-        styleButton(exitButton);
-        exitButton.addActionListener(e -> {
-            system.saveAllData();
-            System.exit(0);
-        });
-        
-        buttonPanel.add(adminButton);
-        buttonPanel.add(userButton);
-        buttonPanel.add(exitButton);
-        
-        centerPanel.add(Box.createVerticalStrut(20));
-        centerPanel.add(buttonPanel);
+        }
+    });
+    
+    JButton exitButton = createStyledButton("Exit", BUTTON_BG1, BUTTON_TEXT1);
+    exitButton.addActionListener(e -> {
+        system.saveAllData();
+        System.exit(0);
+    });
+    
+    buttonPanel.add(adminButton);
+    buttonPanel.add(userButton);
+    buttonPanel.add(exitButton);
+    
+    centerPanel.add(Box.createVerticalStrut(20));
+    centerPanel.add(buttonPanel);
 
-        // Add everything to main panel
-        homePanel.add(centerPanel, BorderLayout.CENTER);
-    }
+    // Add everything to main panel
+    homePanel.add(centerPanel, BorderLayout.CENTER);
+}
 
     private void createLoginPanel() {
         loginPanel = new JPanel(new GridBagLayout());
         loginPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        loginPanel.setBackground(BACKGROUND_COLOR);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -155,12 +177,14 @@ public class MainGUI {
 
         JLabel titleLabel = new JLabel("Admin Login", JLabel.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setForeground(TITLE_COLOR);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
         loginPanel.add(titleLabel, gbc);
 
         JLabel userLabel = new JLabel("Username:");
+        userLabel.setForeground(BUTTON_TEXT1);
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
@@ -172,6 +196,7 @@ public class MainGUI {
         loginPanel.add(userText, gbc);
 
         JLabel passwordLabel = new JLabel("Password:");
+        passwordLabel.setForeground(BUTTON_TEXT1);
         gbc.gridx = 0;
         gbc.gridy = 2;
         loginPanel.add(passwordLabel, gbc);
@@ -182,8 +207,9 @@ public class MainGUI {
         loginPanel.add(passwordText, gbc);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        buttonPanel.setBackground(BACKGROUND_COLOR);
         
-        JButton loginButton = new JButton("Login");
+        JButton loginButton = createStyledButton("Login", BUTTON_BG1, BUTTON_TEXT1);
         loginButton.addActionListener(e -> {
             String username = userText.getText();
             String password = new String(passwordText.getPassword());
@@ -198,7 +224,7 @@ public class MainGUI {
             }
         });
         
-        JButton backButton = new JButton("Back");
+        JButton backButton = createStyledButton("Back", BUTTON_BG2, BUTTON_TEXT2);
         backButton.addActionListener(e -> cardLayout.show(cardPanel, "Home"));
 
         buttonPanel.add(loginButton);
@@ -211,45 +237,102 @@ public class MainGUI {
     }
 
     private void createAdminPanel() {
-        adminPanel = new JPanel(new BorderLayout());
-        adminPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+    adminPanel = new JPanel(new BorderLayout());
+    adminPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+    adminPanel.setBackground(BACKGROUND_COLOR);
 
-        // Title
-        JLabel titleLabel = new JLabel("Admin Dashboard", JLabel.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        adminPanel.add(titleLabel, BorderLayout.NORTH);
+    // Title
+    JLabel titleLabel = new JLabel("Admin Dashboard", JLabel.CENTER);
+    titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+    titleLabel.setForeground(TITLE_COLOR);
+    adminPanel.add(titleLabel, BorderLayout.NORTH);
 
-        // Menu panel
-        JPanel menuPanel = new JPanel(new GridLayout(0, 1, 10, 10));
-        menuPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
+    // Center panel with welcome message and image
+    JPanel centerPanel = new JPanel(new BorderLayout(0, 20));
+    centerPanel.setBackground(BACKGROUND_COLOR);
 
-        // Create buttons for each function
-        JButton vehicleButton = new JButton("Manage Vehicles");
-        vehicleButton.addActionListener(e -> showVehicleManagement());
+    // Welcome message (NORTH of center panel)
+    JLabel welcomeLabel = new JLabel("Good to see you, Admin! Ready to make magic happen?", JLabel.CENTER);
+    welcomeLabel.setFont(new Font("Arial", Font.ITALIC, 18));
+    welcomeLabel.setForeground(BUTTON_TEXT1);
+    welcomeLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
+    centerPanel.add(welcomeLabel, BorderLayout.NORTH);
 
-        JButton customerButton = new JButton("Manage Customers");
-        customerButton.addActionListener(e -> showCustomerManagement());
+    // Image panel (CENTER of center panel)
+    JPanel imagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+    imagePanel.setBackground(BACKGROUND_COLOR);
+    
+    try {
+        ImageIcon originalIcon = new ImageIcon("admin_dashboard_image.png");
+        Image scaledImage = originalIcon.getImage().getScaledInstance(400, 250, Image.SCALE_SMOOTH);
+        JLabel imageLabel = new JLabel(new ImageIcon(scaledImage));
+        imagePanel.add(imageLabel);
+    } catch (Exception e) {
+        JLabel noImageLabel = new JLabel("🚗 Admin Control Center 🚙");
+        noImageLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        noImageLabel.setForeground(TITLE_COLOR);
+        imagePanel.add(noImageLabel);
+    }
+    
+    centerPanel.add(imagePanel, BorderLayout.CENTER);
 
-        JButton rentalButton = new JButton("Manage Rentals");
-        rentalButton.addActionListener(e -> showRentalManagement());
+    // Menu panel (now in the SOUTH position)
+    JPanel menuPanel = new JPanel(new GridLayout(0, 1, 10, 10));
+    menuPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
+    menuPanel.setBackground(BACKGROUND_COLOR);
 
-        JButton reportButton = new JButton("Generate Reports");
-        reportButton.addActionListener(e -> showReports());
+    // Create buttons for each function
+    JButton vehicleButton = createStyledButton("Manage Vehicles", BUTTON_BG1, BUTTON_TEXT1);
+    vehicleButton.addActionListener(e -> showVehicleManagement());
 
-        JButton feedbackButton = new JButton("View Feedback");
-        feedbackButton.addActionListener(e -> showFeedback());
+    JButton customerButton = createStyledButton("Manage Customers", BUTTON_BG2, BUTTON_TEXT2);
+    customerButton.addActionListener(e -> showCustomerManagement());
 
-        JButton logoutButton = new JButton("Logout");
-        logoutButton.addActionListener(e -> cardLayout.show(cardPanel, "Home"));
+    JButton rentalButton = createStyledButton("Manage Rentals", BUTTON_BG1, BUTTON_TEXT1);
+    rentalButton.addActionListener(e -> showRentalManagement());
 
-        menuPanel.add(vehicleButton);
-        menuPanel.add(customerButton);
-        menuPanel.add(rentalButton);
-        menuPanel.add(reportButton);
-        menuPanel.add(feedbackButton);
-        menuPanel.add(logoutButton);
+    JButton reportButton = createStyledButton("Generate Reports", BUTTON_BG2, BUTTON_TEXT2);
+    reportButton.addActionListener(e -> showReports());
 
-        adminPanel.add(menuPanel, BorderLayout.CENTER);
+    JButton feedbackButton = createStyledButton("View Feedback", BUTTON_BG1, BUTTON_TEXT1);
+    feedbackButton.addActionListener(e -> showFeedback());
+
+    JButton logoutButton = createStyledButton("Logout", BUTTON_BG2, BUTTON_TEXT2);
+    logoutButton.addActionListener(e -> cardLayout.show(cardPanel, "Home"));
+
+    menuPanel.add(vehicleButton);
+    menuPanel.add(customerButton);
+    menuPanel.add(rentalButton);
+    menuPanel.add(reportButton);
+    menuPanel.add(feedbackButton);
+    menuPanel.add(logoutButton);
+
+    // Add components to main panel
+    adminPanel.add(centerPanel, BorderLayout.CENTER);
+    adminPanel.add(menuPanel, BorderLayout.SOUTH);
+}
+    
+    private JButton createStyledButton(String text, Color bgColor, Color textColor) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Arial", Font.BOLD, 16));
+        button.setBackground(bgColor);
+        button.setForeground(textColor);
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createRaisedBevelBorder(),
+            BorderFactory.createEmptyBorder(10, 25, 10, 25)
+        ));
+        return button;
+    }
+
+    private void styleTextArea(JTextArea area) {
+        area.setEditable(false);
+        area.setLineWrap(true);
+        area.setWrapStyleWord(true);
+        area.setBackground(BACKGROUND_COLOR);
+        area.setFont(new Font("Arial", Font.PLAIN, 16));
+        area.setAlignmentX(Component.CENTER_ALIGNMENT);
+        area.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 50));
     }
 
     private void showVehicleManagement() {
@@ -539,24 +622,6 @@ public class MainGUI {
         card.add(priceLabel);
         
         parent.add(card);
-    }
-
-    private void styleTextArea(JTextArea area) {
-        area.setEditable(false);
-        area.setLineWrap(true);
-        area.setWrapStyleWord(true);
-        area.setBackground(new Color(240, 240, 240));
-        area.setFont(new Font("Arial", Font.PLAIN, 16));
-        area.setAlignmentX(Component.CENTER_ALIGNMENT);
-        area.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 50));
-    }
-
-    private void styleButton(JButton button) {
-        button.setFont(new Font("Arial", Font.BOLD, 14));
-        button.setBackground(new Color(70, 130, 180));
-        button.setForeground(Color.WHITE);
-        button.setFocusPainted(false);
-        button.setPreferredSize(new Dimension(120, 40));
     }
 
     public static void main(String[] args) {
